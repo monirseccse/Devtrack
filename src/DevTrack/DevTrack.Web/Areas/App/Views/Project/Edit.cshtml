@@ -1,0 +1,120 @@
+﻿@model ProjectEditModel;
+@{
+    ViewData["Title"] = "Edit Project";
+}
+
+<div class="container-fluid">
+    <div class="row mb-2">
+        <div class="col-6">
+            <h3>@ViewData["Title"]</h3>
+            <h5>@Model.Title</h5>
+        </div>
+        <div class="col-6">
+        </div>
+    </div>
+</div>
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Column -->
+            <div class="col-12">
+                <div class="card-header p-2">
+                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="general-tab" data-bs-toggle="tab" data-bs-target="#general" type="button" role="tab" aria-controls="general" aria-selected="true">General</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="team-tab" type="button" onclick="location.href='@Url.Action("ManageInvitations", "Project", new { Area = "App", projectId = @Model.Id, projectName = @Model.Title})'">Team</button>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="card card-info">
+                            <!-- form start -->
+                            <form class="form-horizontal" method="post" asp-antiforgery="true" asp-action="Edit" asp-controller="Project" asp-area="App">
+                                <div class="card-body">
+                                    <div asp-validation-summary="All" class="text-danger"></div>
+                                    <input type="hidden" asp-for="Id" />
+                                    <div class="form-group row" style="padding-bottom: 12px;">
+                                        <label class="col-sm-2 col-form-label" asp-for="Title">Project Title</label>
+                                        <div class="col-sm-4">
+                                            <input type="text" class="form-control" asp-for="Title" placeholder="Project Name" required>
+                                            <span asp-validation-for="Title" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group" style="border-top: 2px solid #e6e9ed; padding-top: 26px; padding-bottom: 12px;">
+                                        <div class="custom-control custom-switch">
+                                            <input type="checkbox" class="custom-control-input" id="SSCheckbox" asp-for="AllowScreenshot">
+                                            <label class="custom-control-label" for="SSCheckbox" asp-for="AllowScreenshot">Allow Screenshot</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group" style="border-top: 2px solid #e6e9ed; padding-top: 26px; padding-bottom: 12px;">
+                                        <div class="custom-control custom-switch">
+                                            <input type="checkbox" class="custom-control-input" id="WCCheckbox" asp-for="AllowWebcam">
+                                            <label class="custom-control-label" for="WCCheckbox">Allow Webcam</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group" style="border-top: 2px solid #e6e9ed; padding-top: 26px; padding-bottom: 12px;">
+                                        <div class="custom-control custom-switch">
+                                            <input type="checkbox" class="custom-control-input" id="KBCheckbox" asp-for="AllowKeyboardHit">
+                                            <label class="custom-control-label" for="KBCheckbox">Allow Keyboard Hit</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group" style="border-top: 2px solid #e6e9ed; padding-top: 26px; padding-bottom: 12px;">
+                                        <div class="custom-control custom-switch">
+                                            <input type="checkbox" class="custom-control-input" id="MouseCheckbox" asp-for="AllowMouseClick">
+                                            <label class="custom-control-label" for="MouseCheckbox">Allow Mouse Click Tracking</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group" style="border-top: 2px solid #e6e9ed; padding-top: 26px; padding-bottom: 12px;">
+                                        <div class="custom-control custom-switch">
+                                            <input type="checkbox" class="custom-control-input" id="WindowCheckbox" asp-for="AllowActiveWindow">
+                                            <label class="custom-control-label" for="WindowCheckbox">Allow Active Window Tracking</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group" style="border-top: 2px solid #e6e9ed; padding-top: 26px; padding-bottom: 12px;">
+                                        <div class="custom-control custom-switch">
+                                            <input type="checkbox" class="custom-control-input" id="TimeCheckbox" asp-for="AllowManualTimeEntry">
+                                            <label class="custom-control-label" for="TimeCheckbox">Allow Manual Time Entry</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group" style="border-top: 2px solid #e6e9ed; padding-top: 26px; padding-bottom: 12px;">
+                                        <div class="custom-control custom-switch">
+                                            <input type="checkbox" class="custom-control-input" id="customSwitch1" asp-for="AllowRunningProgram">
+                                            <label class="custom-control-label" for="customSwitch1">Allow Running Program Tracking</label>
+                                        </div>
+                                    </div>
+                                    <input type="hidden" id="IsArchived" asp-for="IsArchived"/>
+                                    <div class="form-group" style="border-top: 2px solid #e6e9ed; padding-top: 26px; padding-bottom: 12px;">
+                                        <div class="custom-control custom-switch">
+                                            <label asp-for="TimeInterval">Time Interval</label>
+                                            <select asp-for="TimeInterval">
+                                                <option value="5">5 Minute</option>
+                                                <option value="10">10 Minute</option>
+                                                <option value="15">15 Minute</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="card-footer">
+                                        <button type="submit" class="btn btn-success float-right" style="margin-left: 26px;">Update Project</button>
+                                        <button class="btn btn-default float-right" type="reset" value="Reset" 
+                                                onclick="location.href='@Url.Action("Index", "Project", new { Area = "App" })'">Cancel</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <!-- /.tab-content -->
+                </div><!-- /.card-header -->
+            </div>
+            <!-- /.column -->
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+</section>
+<!-- /.content -->
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+}

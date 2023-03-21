@@ -1,0 +1,146 @@
+﻿@model ReportCreateModel;
+@{
+    ViewData["Title"] = "TrackedHour";
+}
+
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <div class="row mt-3">
+            <div class="col-md-12">
+                <div class="card-header p-2">
+                    <div class="tab-content" id="myTabContent">
+                        <div class="tab-pane fade show active" id="team" role="tabpanel" aria-labelledby="team-tab">
+                            <!--Archive Tab -->
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col-12 mt-6" style="margin-bottom: 6px;">
+                                        <div class="float-right">
+                                            <a asp-area="App" asp-controller="MyActivity" asp-action="Index"
+                                               asp-route-projectId="@Model.ProjectId" asp-route-projectName="@Model.ProjectName"
+                                               type="button" class="btn bg-gradient-success btn-flat" style="margin: 12px 26px 6px 0">
+                                                View Activities
+                                            </a>
+                                            @if (!@Model.IsOwner)
+                                            {
+                                                <a asp-area="App" asp-controller="Report" asp-action="Index"
+                                               asp-route-projectId="@Model.ProjectId" asp-route-projectName="@Model.ProjectName"
+                                               type="button" class="btn bg-gradient-success btn-flat" style="display:none; margin: 12px 26px 6px 0" id="ReportButton">
+                                                    View Reports
+                                                </a>
+                                            }
+                                            else{
+                                                <a asp-area="App" asp-controller="Report" asp-action="Index"
+                                               asp-route-projectId="@Model.ProjectId" asp-route-projectName="@Model.ProjectName"
+                                               type="button" class="btn bg-gradient-success btn-flat" style="margin: 12px 26px 6px 0" id="ReportButton">
+                                                    View Reports
+                                                </a>
+                                            }
+
+                                        </div>
+                                        <div class="col-8 float-left">
+                                            <h3><b>@Model.ProjectName</b></h3>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <hr />
+                                        <p><b>Summary</b></p>
+                                        <p id="totalHours"></p>
+                                        <hr />
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <table id="team-members" class="table table-bordered table-hover" style="width: 100%;">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Team Member</th>
+                                                            <th>Role</th>
+                                                            <th>Logged Total(Hours)</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tfoot>
+                                                        <tr>
+                                                            <th>Team Member</th>
+                                                            <th>Role</th>
+                                                            <th>Logged Total(Hours)</th>
+                                                        </tr>
+                                                    </tfoot>
+                                                </table>
+                                            </div>
+                                            <!-- /.card-body -->
+                                        </div>
+                                        <!-- /.card -->
+                                    </div>
+                                    <!-- /.col -->
+                                </div>
+                                <!-- /.row -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+</section>
+
+<!-- /.content -->
+@section Scripts
+    {
+    <partial name="_ValidationScriptsPartial" />
+    <!-- DataTables  & Plugins -->
+    <script src="~/assets/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/assets/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="~/assets/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="~/assets/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+    <script src="~/assets/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="~/assets/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+    <script src="~/assets/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+    <script src="~/assets/plugins/datatables-buttons/js/buttons.print.min.js"></script>
+    <script src="~/assets/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        $(function () {
+            var projects = $('#team-members').DataTable({
+                "paging": false,
+                "searching": false,
+                "info": false,
+                "autoWidth": true,
+                "responsive": true,
+                "processing": true,
+                "ordering": true,
+                "serverSide": true,
+                "ajax": {
+                    "url": "/App/Report/GetTrackedHours/@Model.ProjectId",
+                    type: 'GET'
+                },
+                "columnDefs": [
+                    {
+                        "orderable": false,
+                        "targets": 0,
+                        "render": function (data, type, row) {
+                            return `<div class="user-panel d-flex">
+                                                <div class="image">
+                                                    <img src="${row[4]}" class="img-circle elevation-2" alt="Member Image">
+                                                </div>
+                                                <div class="info">${row[0]}</div>
+                                            </div>`;
+                        }
+                    }
+                ]
+            });
+        });
+  
+        $(document).ready(function () {
+            var url = "/App/Report/GetTrackedHours/@Model.ProjectId";
+            $.getJSON(url, function (projects) {
+                $('#totalHours').append('<span>' + "Total Logged Hours: " + projects.data[0][3] + '</option>');
+            });
+        });
+    </script>
+}
+
+

@@ -1,0 +1,23 @@
+$colors: (
+    common: (
+        "white": #ffffff,
+        "black": #000000,
+        "blue": #2785ff,
+        "heading": #333333,
+        "heading-gradient": linear-gradient(90deg, #4295F7 0%, #B258F8 100%),
+        "heading-gradient-hover": linear-gradient(90deg, #B258F8 0%, #4295F7 100%),
+        "bg-gradient": linear-gradient(180deg, #4295F7 10%, #B258F8 100%),
+        "text": #333333,
+        "border": #eaebee,
+        "placeholder": #8e8e8e,
+    ),
+    theme: (
+        "1": #171717,
+        "2": #fb5050,
+    ),
+    bg: (
+        "gray": #f3f4f6,
+        "black": #000,
+        "footer": #f6f6f6,
+    ),
+);

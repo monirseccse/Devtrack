@@ -1,0 +1,9 @@
+﻿@using DevTrack.Web.Codes
+
+@if (TempData.Peek<ResponseModel>("ResponseMessage") != null)
+{
+    var response = TempData.Get<ResponseModel>("ResponseMessage");
+    <div class="alert alert-@(response.Type.ToString().ToLower())" role="alert" style="margin-top:1%">
+        @response.Message
+    </div>
+}

@@ -1,0 +1,493 @@
+﻿@model ReportCreateModel;
+@{
+    ViewData["Title"] = "Reports";
+}
+
+@section Styles
+    {
+    <!-- daterange picker -->
+    <link rel="stylesheet" href="~/assets/plugins/daterangepicker/daterangepicker.css">
+    <!-- iCheck for checkboxes and radio inputs -->
+    <link rel="stylesheet" href="~/assets/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+    <!-- Bootstrap Color Picker -->
+    <link rel="stylesheet" href="~/assets/plugins/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css">
+    <!-- Tempusdominus Bootstrap 4 -->
+    <link rel="stylesheet" href="~/assets/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
+    <!-- Select2 -->
+    <link rel="stylesheet" href="~/assets/plugins/select2/css/select2.min.css">
+    <link rel="stylesheet" href="~/assets/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+    <!-- Bootstrap4 Duallistbox -->
+    <link rel="stylesheet" href="~/assets/plugins/bootstrap4-duallistbox/bootstrap-duallistbox.min.css">
+    <!-- BS Stepper -->
+    <link rel="stylesheet" href="~/assets/plugins/bs-stepper/css/bs-stepper.min.css">
+    <!-- dropzonejs -->
+    <link rel="stylesheet" href="~/assets/plugins/dropzone/min/dropzone.min.css">
+    <!-- Ekko Lightbox -->
+    <link rel="stylesheet" href="~/assets/plugins/ekko-lightbox/ekko-lightbox.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="~/assets/css/adminlte.min.css">
+    <link rel="stylesheet" href="~/assets/css/main.css">
+}
+
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-6">
+                @if (@Model.ProjectName != null)
+                {
+                    <h1><b>@Model.ProjectName</b> Reports</h1>
+                }
+                else
+                {
+                    <h1>Reports</h1>
+                }
+            </div>
+                <div class="col-6">
+                </div>
+            </div>
+        </div>
+        <!-- /.container-fluid -->
+    </section>
+
+    <div class="container-fluid">
+        <form>
+            <div class="row">
+                <div class="col-md-12">
+                @if (@Model.ProjectName != null)
+                    {
+                    <div class="row">
+                        <div class="col-3">
+                            <div class="form-group">
+                                <label asp-for="ApplicationUserId">Select Users</label>
+                                <select asp-for="ApplicationUserId" id="userDropDownList" class="select2" style="width: 100%;">
+                                    <option value="Select">Select</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="form-group">
+                                <label asp-for="DateRange">Date range</label>
+
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="far fa-clock"></i></span>
+                                    </div>
+                                    <input asp-for="DateRange" type="text" class="form-control float-right" id="reservationtime">
+                                </div>
+                                <!-- /.input group -->
+                            </div>
+                        </div>
+                        <div class="col-2">
+                            <div class="form-group">
+                                <label>&nbsp;&nbsp;</label>
+                                <button id="searchbtn" type="submit" class="btn btn-primary" style="width: 100%;">Search</button>
+                            </div>
+                        </div>
+                    </div>
+                    }
+                    else
+                    {
+                    <div class="row">
+                        <div class="col-3">
+                            <div class="form-group">
+                                <label asp-for="ProjectId">Select Project</label>
+                                <select asp-for="ProjectId" id="projectDropDownList" class="select2" style="width: 100%;">
+                                    <option value="Select">Select</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="form-group">
+                                <label asp-for="ApplicationUserId">Select Users</label>
+                                <select asp-for="ApplicationUserId" id="userDropDownList" class="select2" style="width: 100%;">
+                                    <option value="Select">Select</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="form-group">
+                                <label asp-for="DateRange">Date range</label>
+
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="far fa-clock"></i></span>
+                                    </div>
+                                    <input asp-for="DateRange" type="text" class="form-control float-right" id="reservationtime">
+                                </div>
+                                <!-- /.input group -->
+                            </div>
+                        </div>
+                        <div class="col-2">
+                            <div class="form-group">
+                                <label>&nbsp;&nbsp;</label>
+                                <button id="searchbtn" type="submit" class="btn btn-primary" style="width: 100%;">Search</button>
+                            </div>
+                        </div>
+                    </div>
+                    }
+                </div>
+            </div>
+        </form>
+        <div class="row mt-3">
+            <div class="col-md-12">
+                <div class="card-header p-2">
+                    <ul class="nav nav-pills" id="tab-id">
+                    </ul>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body">
+                    <div class="tab-content" id="tab-content">
+                        <div class="active tab-pane" id="activity">
+                            <div class="row">
+                                <div class="col-sm-12" id="activity-images">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @section Scripts
+    {
+    <!-- Select2 -->
+    <script src="~/assets/plugins/select2/js/select2.full.min.js"></script>
+    <!-- Bootstrap4 Duallistbox -->
+    <script src="~/assets/plugins/bootstrap4-duallistbox/jquery.bootstrap-duallistbox.min.js"></script>
+    <!-- InputMask -->
+    <script src="~/assets/plugins/moment/moment.min.js"></script>
+    <script src="~/assets/plugins/inputmask/jquery.inputmask.min.js"></script>
+    <!-- date-range-picker -->
+    <script src="~/assets/plugins/daterangepicker/daterangepicker.js"></script>
+    <!-- bootstrap color picker -->
+    <script src="~/assets/plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js"></script>
+    <!-- Tempusdominus Bootstrap 4 -->
+    <script src="~/assets/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
+    <!-- Bootstrap Switch -->
+    <script src="~/assets/plugins/bootstrap-switch/js/bootstrap-switch.min.js"></script>
+    <!-- BS-Stepper -->
+    <script src="~/assets/plugins/bs-stepper/js/bs-stepper.min.js"></script>
+    <!-- dropzonejs -->
+    <script src="~/assets/plugins/dropzone/min/dropzone.min.js"></script>
+    <!-- Ekko Lightbox -->
+    <script src="~/assets/plugins/ekko-lightbox/ekko-lightbox.min.js"></script>
+    <!-- Filterizr-->
+    <script src="~/assets/plugins/filterizr/jquery.filterizr.min.js"></script>
+
+    <script>
+        $(function () {
+            $(document).on('click', '[data-toggle="lightbox"]', function (event) {
+                event.preventDefault();
+                $(this).ekkoLightbox({
+                    alwaysShowClose: true
+                });
+            });
+
+            $('.filter-container').filterizr({ gutterPixels: 3 });
+            $('.btn[data-filter]').on('click', function () {
+                $('.btn[data-filter]').removeClass('active');
+                $(this).addClass('active');
+            });
+        });
+
+        $(document).ready(function () {
+            if ('@Model.ProjectName' == "") {
+                var url = "/App/Report/GetProjectName";
+
+                $.getJSON(url, function (projects) {
+                    $.each(projects, function (i, project) {
+                        $('#projectDropDownList').append('<option value="' + project.Id + '">' + project.Title + '</option>');
+                    });
+                });
+            }
+        });
+
+        $(document).ready(function () {
+            if ('@Model.ProjectName' != "") {
+                $.ajax({
+                    type: 'GET',
+                    url: '/App/Report/GetApplicationUserName',
+                    dataType: 'json',
+                    data: { projectId: '@Model.ProjectId' },
+                    success: function (users) {
+                        $.each(users, function (i, user) {
+                            $("#userDropDownList").append('<option value="'
+                                + user.Id + '">'
+                                + user.Name + '</option>');
+                        });
+                    },
+                    error: function (ex) {
+                        alert('Failed to retrieve users.' + ex);
+                    }
+                });
+            }
+            else{
+                $('#projectDropDownList').change(function () {
+                    $("#userDropDownList").empty();
+                    $.ajax({
+                        type: 'GET',
+                        url: '/App/Report/GetApplicationUserName',
+                        dataType: 'json',
+                        data: { projectId: this.value },
+                        success: function (users) {
+                            $.each(users, function (i, user) {
+                                $("#userDropDownList").append('<option value="'
+                                    + user.Id + '">'
+                                    + user.Name + '</option>');
+                            });
+                        },
+                        error: function (ex) {
+                            alert('Failed to retrieve users.' + ex);
+                        }
+                    });
+                    return false;
+                })
+            }
+
+            $('#searchbtn').click(function () {
+                let model = {
+                    ProjectId: $('#projectDropDownList').val(),
+                    ApplicationUserId: $('#userDropDownList').val(),
+                    DateRange: $('#reservationtime').val()
+                };
+
+                if ('@Model.ProjectName' != "") {
+                    model.ProjectId = '@Model.ProjectId';
+                }
+
+                $.ajax({
+                    type: 'GET',
+                    url: '/App/Report/GetSearchedData',
+                    dataType: 'json',
+                    data: model,
+                    success: function(items){
+                        if(items.length==0)
+                        {
+                            let tabContent = '';
+                            let tabId = '';
+                            alert('No Data Found!');
+                            tabContent += `<h1>No Data Found!</h1`;
+                            $("#tab-id").html(tabId);
+                            $("#tab-content").html(tabContent);
+                        }
+                        else
+                        {
+                            const activitiesList = new Array();
+                            for(var i=0;i<items.length;i++)
+                            {
+                                let tabId = '';
+                                let tabContent = '';
+                                let screenshotUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRqEWgS0uxxEYJ0PsOb2OgwyWvC0Gjp8NUdPw&usqp=CAU";
+                                let webcamUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRqEWgS0uxxEYJ0PsOb2OgwyWvC0Gjp8NUdPw&usqp=CAU";
+                                let mouseActivities = 0;
+                                let keyboardActivities = 0;
+                                let runningPrograms = new Array();
+                                let activeWindows = new Array();
+                                const tempList = new Array();
+
+                                if(items[i].ScreenCapture != null){
+                                    screenshotUrl = items[i].ScreenCapture.Image;
+                                }
+                                
+                                if(items[i].WebcamCapture != null){
+                                    webcamUrl = items[i].WebcamCapture.Image;
+                                }
+                                
+                                if(items[i].MouseActivity != null){
+                                    mouseActivities = items[i].MouseActivity.TotalHits;
+                                }
+                                
+                                if(items[i].KeyboardActivity != null){
+                                    keyboardActivities = items[i].KeyboardActivity.TotalHits;
+                                }
+
+                                items[i].RunningPrograms.forEach(function (it) {
+                                    runningPrograms.push(it.MainWindowTitle);
+                                })
+                                items[i].ActiveWindows.forEach(function (it) {
+                                    activeWindows.push(it.MainWindowTitle);
+                                })
+
+                                tempList.push(screenshotUrl);
+                                tempList.push(webcamUrl);
+                                tempList.push(mouseActivities);
+                                tempList.push(keyboardActivities);
+                               
+                                if (runningPrograms.length > 0) {
+                                    let tempRunningProgramList = ' | ';
+                                    for(var j=0;j<runningPrograms.length;j++){
+                                        tempRunningProgramList += runningPrograms[j] + " | ";
+                                    }
+                                    tempList.push(tempRunningProgramList);
+                                }
+                                else {
+                                    tempList.push("No Data Found");
+                                }
+
+                                if (activeWindows.length > 0) {
+                                    let tempActiveWindowsList = ' | ';
+                                    for(var j=0;j<activeWindows.length;j++){
+                                        tempActiveWindowsList += activeWindows[j] + " | ";
+                                    }
+                                    tempList.push(tempActiveWindowsList);
+                                }
+                                else {
+                                    tempList.push("No Data Found");
+                                }
+
+                                tempList.push(items[i].StartTime);
+                                tempList.push(items[i].EndTime);
+
+                                activitiesList.push(tempList);
+                            }
+
+                            let tabId = '';
+                            let tabContent = '';
+                            for (var i = 0; i < activitiesList.length; i++){
+                                let screenshoturl = activitiesList[i][0];
+                                let webcamurl = activitiesList[i][1];
+                                let mouseClicks = activitiesList[i][2];
+                                let keyboardHits = activitiesList[i][3];
+                                let runningProgram = activitiesList[i][4];
+                                let activeWindow = activitiesList[i][5];
+                                let startTime = activitiesList[i][6];
+                                startTime = startTime.substring(11, 19) + ", " + startTime.substring(0, 10);
+                                let endTime = activitiesList[i][7];
+                                endTime = endTime.substring(11, 19) + ", " + endTime.substring(0, 10);
+
+                                tabId += `<li class="nav-item mx-2"> <a class="nav-link"  href="#activity-${i}" data-toggle="tab">Activity</a>
+                                                                </li>`;
+
+                                tabContent +=`<div class="tab-pane " id="activity-${i}">
+                                                <div class="row">
+                                                    <div class="col-sm-12">
+                                                        <h4>Time Range</h4>
+                                                        <p><b>Start: </b>${startTime}</p>
+                                                        <p><b>End: </b>${endTime}</p><hr>
+                                                    </div>
+                                                    <div class="col-sm-12">
+                                                        <h4>Mouse Clicks</h4>
+                                                        <p>Counts   : ${mouseClicks}</p><hr>
+                                                    </div>
+                                                    <div class="col-sm-12">
+                                                        <h4>Keyboard Hits</h4>
+                                                        <p>Counts   : ${keyboardHits}</p><hr>
+                                                    </div>
+                                                    <div class="col-sm-12">
+                                                        <h4>Running Program</h4>
+                                                        <p>${runningProgram}</p><hr>
+                                                    </div>
+                                                    <div class="col-sm-12">
+                                                        <h4>Active Window</h4>
+                                                        <p>${activeWindow}</p><hr>
+                                                    </div>
+                                                    <div class="col-sm-12">
+                                                        <h4>Screenshot</h4>
+                                                        <p>
+                                                        <a href="${screenshoturl}" data-toggle="lightbox" data-title="Screenshot" data-gallery="gallery">
+                                                        <img src="${screenshoturl}" class="img-fluid mb-2" width="480"/>
+                                                        </a>
+                                                                </p><hr>
+                                                    </div>
+                                                    <div class="col-sm-12">
+                                                        <h4>Webcam</h4>
+                                                        <p>
+                                                        <a href="${webcamurl}" data-toggle="lightbox" data-title="Webcam" data-gallery="gallery">
+                                                            <img src="${webcamurl}" class="img-fluid mb-2" width="480"/>
+                                                        </a>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                              </div>`;
+                            }
+                            $("#tab-id").html(tabId);
+                            $("#tab-content").html(tabContent);
+                        }
+                    },
+                    error: function(ex){
+                        alert('Failed to retrieve data.' + ex);
+                    }
+                });
+                return false;
+            })
+        });
+    </script>
+    <script>
+        $(function () {
+            //Initialize Select2 Elements
+            $('.select2').select2()
+
+            //Initialize Select2 Elements
+            $('.select2bs4').select2({
+                theme: 'bootstrap4'
+            });
+
+            //Datemask dd/mm/yyyy
+            $('#datemask').inputmask('dd/mm/yyyy', { 'placeholder': 'dd/mm/yyyy' })
+            //Datemask2 mm/dd/yyyy
+            $('#datemask2').inputmask('mm/dd/yyyy', { 'placeholder': 'mm/dd/yyyy' })
+            //Money Euro
+            $('[data-mask]').inputmask()
+
+            //Date picker
+            $('#reservationdate').datetimepicker({
+                format: 'L'
+            });
+
+            //Date and time picker
+            $('#reservationdatetime').datetimepicker({ icons: { time: 'far fa-clock' } });
+
+            //Date range picker
+            $('#reservation').daterangepicker()
+            //Date range picker with time picker
+            $('#reservationtime').daterangepicker({
+                timePicker: true,
+                timePickerIncrement: 30,
+                locale: {
+                    format: 'MM/DD/YYYY hh:mm A'
+                }
+            })
+            //Date range as a button
+            $('#daterange-btn').daterangepicker(
+                {
+                    ranges: {
+                        'Today': [moment(), moment()],
+                        'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                        'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                        'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                        'This Month': [moment().startOf('month'), moment().endOf('month')],
+                        'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+                    },
+                    startDate: moment().subtract(29, 'days'),
+                    endDate: moment()
+                },
+                function (start, end) {
+                    $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'))
+                }
+            )
+
+            //Timepicker
+            $('#timepicker').datetimepicker({
+                format: 'LT'
+            })
+
+            //Bootstrap Duallistbox
+            $('.duallistbox').bootstrapDualListbox()
+
+            //Colorpicker
+            $('.my-colorpicker1').colorpicker()
+            //color picker with addon
+            $('.my-colorpicker2').colorpicker()
+
+            $('.my-colorpicker2').on('colorpickerChange', function (event) {
+                $('.my-colorpicker2 .fa-square').css('color', event.color.toString());
+            })
+
+            $("input[data-bootstrap-switch]").each(function () {
+                $(this).bootstrapSwitch('state', $(this).prop('checked'));
+            })
+
+        })
+    </script>
+}

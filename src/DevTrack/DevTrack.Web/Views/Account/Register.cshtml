@@ -1,0 +1,90 @@
+﻿@model RegisterModel
+@{
+    ViewData["Title"] = "Register a new membership";
+}
+
+<div class="register-box">
+    <div class="register-logo">
+        <a asp-area="" asp-controller="Home" asp-action="Index" class="theme-gradient-color"><b>DEV TRACK</b></a>
+    </div>
+    <div class="card">
+        <div class="card-body register-card-body">
+            <p class="login-box-msg mb-15">@ViewData["Title"]</p>
+            <form id="registerForm" asp-area="" asp-controller="Account" asp-action="Register" asp-route-returnUrl="@Model?.ReturnUrl" method="post" enctype="multipart/form-data">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="input-group mb-3">
+                    <input asp-for="Email" type="email" class="form-control" autocomplete="username" aria-required="true" placeholder="Email" />
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-envelope"></span>
+                        </div>
+                    </div>
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+
+                <div class="input-group mb-3">
+                    <input asp-for="Password" type="password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="Password" />
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-lock"></span>
+                        </div>
+                    </div>
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+
+                <div class="input-group mb-3">
+                    <input asp-for="ConfirmPassword" type="password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="Retype password" />
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-lock"></span>
+                        </div>
+                    </div>
+                    <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                </div>
+
+                <div class="input-group mb-3">
+                    <input asp-for="Name" type="text" class="form-control" autocomplete="name" aria-required="true" placeholder="Full Name" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-user"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="input-group mb-3">
+                    <input asp-for="ImageFile" type="file" class="form-control" aria-required="true" placeholder="Image" />
+                    <span asp-validation-for="ImageFile" class="text-danger"></span>
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-user"></span>
+                        </div>
+                    </div>
+                    <span asp-validation-for="Image" class="text-danger"></span>
+                </div>
+
+                <div class="row mt-30">
+                    <div class="col-8">
+                        <div class="icheck-primary">
+                            <input type="checkbox" id="agreeTerms" name="terms" value="agree">
+                            <label for="agreeTerms">
+                                I agree to the <a href="#">terms</a>
+                            </label>
+                        </div>
+                    </div>
+                    <!-- /.col -->
+                    <div class="col-4">
+                        <button type="submit" class="btn btn-primary btn-block devtrack-btn">Register</button>
+                    </div>
+                    <!-- /.col -->
+                </div>
+            </form>
+            <a class="text-center" asp-area="" asp-controller="Account" asp-action="Login">I already have a membership</a>
+        </div>
+        <!-- /.form-box -->
+    </div><!-- /.card -->
+</div>
+<!-- /.register-box -->
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

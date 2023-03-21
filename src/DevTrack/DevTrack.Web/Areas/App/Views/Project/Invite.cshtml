@@ -1,0 +1,220 @@
+﻿@model InvitationCreateModel;
+
+@{
+    ViewData["Title"] = "Invite Team";
+    var emailCount = 3;
+    if(Model.Emails != null) {
+        emailCount = Model.Emails.Count;
+    }
+}
+
+@section Styles
+{
+    <style>
+        .removeMember {
+            color: red;
+            font-weight: 600;
+            font-size: 20px;
+            margin-left: 6%;
+        }
+
+        .emailSerial {
+            text-align: right;
+            margin-top: 2%;
+        }
+
+        #addMemberBtn {
+            margin-left: 8%;
+        }
+    </style>
+}
+
+<div class="container-fluid">
+    <div class="row mb-2">
+        <div class="col-6">
+            <h3>@ViewData["Title"]</h3>
+            <h5>@TempData.Peek("ProjectTitle")</h5>
+        </div>
+        <div class="col-6">
+        </div>
+    </div>
+</div>
+
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Column -->
+            <div class="col-12">
+                <!-- Card -->
+                <div class="card">
+                    <div class="card-header p-2">
+                        <div class="card-title"><a class="nav-link">1. General</a></div>
+                        <h3 class="card-title mr-50 ml-10 mt-10">2. Invite Team</h3>
+                    </div><!-- /.card-header -->
+                    <div class="card-body">
+                        <div class="tab-content">
+                            <form class="form-horizontal" method="post" asp-antiforgery="true" asp-action="Invite" asp-controller="Project" asp-area="App">
+                                    <input type="hidden" name="ProjectName" asp-for="ProjectName" value="@Model.ProjectName"/>
+                                <!-- Invaite Emails -->
+                                    <div class="col-lg-8 col-md-12 col-sm-12">
+                                    <div class="card">
+                                        <div class="card-body" id="membersDiv">
+                                            <div asp-validation-summary="All" class="text-danger"></div>
+                                            <div class="row mt-20">
+                                                <div class="col-7 col-md-7">
+                                                    <div class="row">
+                                                        <div class="col-1 col-md-1">
+                                                            <h5 class="emailSerial">1</h5>
+                                                        </div>
+                                                        <!-- ./col -->
+                                                        <div class="col-11 col-md-11">
+                                                            <input type="email" class="form-control" name="Emails" asp-for="Emails[0]" placeholder="Email Address">
+                                                        </div>
+                                                        <!-- ./col -->
+                                                    </div>
+                                                </div>
+                                                <!-- ./col -->
+                                                <div class="col-4 col-md-4 text-center">
+                                                    <select class="custom-select form-control-border" id="exampleSelectBorder">
+                                                        <option>Worker</option>
+                                                    </select>
+                                                </div>
+                                                <!-- ./col -->
+                                            </div>
+                                            @{
+                                                for(int i=2; i<= emailCount; i++)
+                                                {
+                                                    <!-- /.row -->
+                                                    <div class="row mt-30">
+                                                        <div class="col-7 col-md-7">
+                                                            <div class="row">
+                                                                <div class="col-1 col-md-1">
+                                                                    <h5 class="emailSerial">@i</h5>
+                                                                </div>
+                                                                <!-- ./col -->
+                                                                <div class="col-11 col-md-11">
+                                                                    <input type="email" class="form-control" name="Emails" asp-for="Emails[i-1]" placeholder="Email Address">
+                                                                </div>
+                                                                <!-- ./col -->
+                                                            </div>
+                                                        </div>
+                                                        <!-- ./col -->
+                                                        <div class="col-5 col-md-5">
+                                                            <div class="row">
+                                                                <div class="col-10 col-md-10 text-center">
+                                                                    <select class="custom-select form-control-border" id="exampleSelectBorder">
+                                                                        <option>Worker</option>
+                                                                    </select>
+                                                                </div>
+                                                                <!-- ./col -->
+                                                                <div class="col-2 col-md-2">
+                                                                    <a class="removeMember" title="Remove invitation" type="button"> &times; </a>
+                                                                </div>
+                                                                <!-- ./col -->
+                                                            </div>
+                                                        </div>
+                                                        <!-- ./col -->
+                                                    </div>
+                                                    <!-- /.row -->
+                                                }
+                                            }
+                                        </div>
+                                        <!-- /.card-body -->
+                                        <div class="row mt-30" style="margin-bottom: 16px;">
+                                            <button type="button" id="addMemberBtn" class="btn bg-gradient-info btn-flat" title="Remove invitation">
+                                                <b>+ Add another member</b>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- /.Invaite Emails -->
+
+                                <div class="container-fluid">
+                                    <div class="row mb-2">
+                                        <div class="col-2">
+                                            <a class="btn btn-secondary btn-block" asp-area="App" asp-controller="Project" asp-action="Index" style="width: 82px; padding: 6px 6px">Cancel</a>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="float-right">
+                                                <button class="btn bg-gradient-success btn-flat" type="submit">
+                                                    Send Invitations
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                            <!-- /.tab-pane -->
+                        </div>
+                        <!-- /.tab-content -->
+                    </div><!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+            </div>
+            <!-- /.column -->
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+</section>
+<!-- /.content -->
+
+
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        // Add Another Member
+        document.getElementById("addMemberBtn").addEventListener("click", () => {
+            var nextSerial = document.getElementsByClassName('emailSerial').length + 1;
+            var emailChildDiv = document.createElement("div");
+            emailChildDiv.className = "row mt-30";
+            emailChildDiv.innerHTML +=
+                `<div class="col-7 col-md-7">
+                  <div class="row">
+                    <div class="col-1 col-md-1">
+                      <h5 class="emailSerial">` + nextSerial + `</h5>
+                    </div>
+                    <!-- ./col -->
+                    <div class="col-11 col-md-11">
+                      <input type="email" class="form-control" name="Emails" placeholder="Email Address">
+                    </div>
+                    <!-- ./col -->
+                  </div>
+                </div>
+                <!-- ./col -->
+                <div class="col-5 col-md-5">
+                  <div class="row">
+                    <div class="col-10 col-md-10 text-center">
+                      <select class="custom-select form-control-border" id="exampleSelectBorder">
+                        <option>Worker</option>
+                      </select>
+                    </div>
+                    <!-- ./col -->
+                    <div class="col-2 col-md-2">
+                              <a class="removeMember" title="Remove invitation" type="button"> &times; </a>
+                    </div>
+                    <!-- ./col -->
+                  </div>
+                </div>`;
+            document.getElementById("membersDiv").appendChild(emailChildDiv);
+        });
+
+        //Remove Member
+        document.addEventListener("click", e => {
+            const target = e.target.closest(".removeMember");
+            if (target) {
+                var elementToRemove = target.parentElement.parentElement.parentElement.parentElement;
+                document.getElementById("membersDiv").removeChild(elementToRemove);
+
+                // Rearrange Email serials
+                var serials = document.getElementsByClassName('emailSerial');
+                var totalEmails = serials.length;
+                for (let i = 1; i <= totalEmails; i++) {
+                    serials[i - 1].innerHTML = i;
+                }
+            }
+        });
+    </script>
+}

@@ -1,0 +1,66 @@
+﻿@{
+    var currentController = this.ViewContext.RouteData.Values["controller"].ToString();
+    var activeStyle = "background-color: rgba(0,0,0, 0.3)";
+    var projectStyle = "";
+    var reportStyle = "";
+    var activityStyle = "";
+    if (currentController.Equals("Project"))
+    {
+        projectStyle = activeStyle;
+    }
+    else if (currentController.Equals("Report"))
+    {
+        reportStyle = activeStyle;
+    }
+    else if (currentController.Equals("MyActivity"))
+    {
+        activityStyle = activeStyle;
+    }
+}
+
+<aside class="main-sidebar sidebar-dark-primary elevation-4 devtrack-gradient-bg">
+    <!-- Brand Logo -->
+    <a asp-area="" asp-controller="Home" asp-action="Index" class="brand-link">
+        <img src="~/assets/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+        <span class="brand-text font-weight-light"><b>DEV TRACK</b></span>
+    </a>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <!-- Sidebar user (optional) -->
+
+        <nav class="mt-2">
+            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                <!-- Add icons to the links using the .nav-icon class
+                     with font-awesome or any other icon font library -->
+                <li class="nav-item" style="@projectStyle">
+                    <a class="nav-link white-color" asp-action="Index" asp-controller="Project" asp-area="App">
+                        <i class="nav-icon far fa-copy"></i>
+                        <p>
+                            Projects
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item" style="@reportStyle">
+                    <a class="nav-link" asp-action="Index" asp-controller="Report" asp-area="App">
+                        <i class="nav-icon fas fa-chart-pie"></i>
+                        <p>
+                            Reports
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item" style="@activityStyle">
+                    <a class="nav-link" asp-action="Index" asp-controller="MyActivity" asp-area="App">
+                        <i class="nav-icon fas fa-columns"></i>
+                        <p>
+                            My Activities
+                        </p>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- /.sidebar-menu -->
+    </div>
+    <!-- /.sidebar -->
+</aside>
